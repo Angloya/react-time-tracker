@@ -8,10 +8,10 @@ function Account() {
     return (
         <>
             <div className='app-page'>
-                {user?.displayName}
-                {user?.email}
-                {user?.phoneNumber}
-                {user?.photoURL}
+                <p>{user?.displayName}</p>
+                <p>{user?.email}</p>
+                <p>{user?.phoneNumber}</p>
+                {user?.photoURL && <img alt="userPhoto" src={user?.photoURL}/>}
             </div>
         </>
     )

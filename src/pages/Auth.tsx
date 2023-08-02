@@ -1,6 +1,17 @@
 import useFirebaseAuth from '../hooks/useFirebaseAuth'
 import { useState } from 'react'
 
+enum AuthText {
+    LOGIN = 'You already have account? Click here to login',
+    SIGNIN = 'You still don\'t have an account? Click here to singin'
+}
+
+enum AuthButtonText {
+    LOGIN = 'Login',
+    SIGNIN = 'Create account',
+    GOOGLE = 'SignIn with google'
+}
+
 function Auth() {
     const { authWithPopup, authWithEmail, loginWithEmail } = useFirebaseAuth();
     const [email, setEmail] = useState('');
@@ -21,9 +32,9 @@ function Auth() {
         setIsLoginButton(!isLoginButton);
     }
 
-    const authButtonText = isLoginButton ? 'Login' : 'Create account';
+    const authButtonText = isLoginButton ? AuthButtonText.LOGIN : AuthButtonText.SIGNIN;
 
-    const linkText = isLoginButton ? 'You still don\'t have an account? Click to singin' : 'You already have account? Click to login'
+    const linkText = isLoginButton ? AuthText.SIGNIN : AuthText.LOGIN
 
     const createUserWithEmail = async () => {
         if (!validateEmail(email)) {
@@ -72,9 +83,9 @@ function Auth() {
 
                 <button onClick={createUserWithEmail} className='auth-button'>{authButtonText}</button>
 
-                <span onClick={changeAuthButton}>{linkText}</span>
+                <span className='link' onClick={changeAuthButton}>{linkText}</span>
 
-                <button onClick={authWithPopup} className='auth-button'>SignIn with google</button>
+                <button onClick={authWithPopup} className='auth-button'>{AuthButtonText.GOOGLE}</button>
             </div>
         </>
     )

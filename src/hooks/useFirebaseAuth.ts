@@ -46,8 +46,8 @@ function useFirebaseAuth() {
         return result;
     }
 
-    const checkUser = () => {
-        firebaseAuth.onAuthStateChanged(user => {
+    const checkUser = async () => {
+        await firebaseAuth.onAuthStateChanged(user => {
             if (user) {
                 addUser(user)
             }
