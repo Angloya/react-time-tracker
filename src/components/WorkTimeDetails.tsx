@@ -20,7 +20,6 @@ function WorkTimeDetails({ isWorkDayFinished, userLeftTime, isStarted }: WorkTim
     const time = isWorkDayFinished ? getFormattedTime(new Date()) : getFormattedTime(dateNow);
 
     return (
-        <>
             <div className={'work-time-details'}>
                 {isStarted &&
                     <>
@@ -40,7 +39,6 @@ function WorkTimeDetails({ isWorkDayFinished, userLeftTime, isStarted }: WorkTim
                     <span>{formattedTime}</span>
                 </p>
             </div>
-        </>
     )
 }
 

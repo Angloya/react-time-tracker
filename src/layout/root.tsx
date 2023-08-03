@@ -3,11 +3,9 @@ import RootHeader from "../components/RootHeader";
 
 export default function Root() {
     return (
-        <>
-            <div className="wrapper">
-                <RootHeader />
-                <div><Outlet /></div>
-            </div>
-        </>
+        <div className="wrapper">
+            <RootHeader />
+            <div><Outlet /></div>
+        </div>
     )
 }

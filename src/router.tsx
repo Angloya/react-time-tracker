@@ -4,7 +4,6 @@ import Root from './layout/root'
 import ErrorPage from './pages/ErrorPage'
 import SettingsPage from './pages/SettingsPage'
 import AccountPage from './pages/Account'
-import './index.css'
 import {
   createBrowserRouter,
 } from "react-router-dom";

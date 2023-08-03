@@ -21,13 +21,11 @@ function App() {
   }, [])
 
   return (
-    <>
       <div className='app-page'>
         {isLoading
           ? 'load'
           : <WorkTime workTimeData={workTimeData} />}
       </div>
-    </>
   )
 }
 

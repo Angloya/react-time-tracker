@@ -35,7 +35,6 @@ function WorkTime({ leftTime, userTime, isWorkDayFinished, isStarted, restOfTime
         isStarted,
     }
     return (
-        <>
             <div className={'work-time-wrapper'}>
                 <div className={'work-time'}>
                     <p className="work-time-date">Today {date}</p>
@@ -51,7 +50,6 @@ function WorkTime({ leftTime, userTime, isWorkDayFinished, isStarted, restOfTime
 
                 <WorkTimeDetails {...workTimeDetailsProps} />
             </div>
-        </>
     )
 }
 

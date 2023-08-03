@@ -33,13 +33,10 @@ function WorkTime({ workTimeData }: { workTimeData: WorkTimeDb | undefined }) {
   }
 
   return (
-    <>
       <div className='work-time-block'>
         <button className='start-day-button' onClick={changeStartStatus}>{getButtonText()}</button>
         <WorkTimeWrapper {...workTimeProps} />
       </div>
-
-    </>
   )
 }
 
