@@ -4,17 +4,20 @@ import useWorkTime from "../hooks/useWorkTime"
 import getFirebaseCollections from "../utils/getFirebaseCollections"
 import { WorkTimeDb } from "../model/interfaces";
 
+interface WorkTimeProps {
+  workTimeData?: WorkTimeDb
+}
 
-function WorkTime({ workTimeData }: { workTimeData: WorkTimeDb | undefined }) {
+function WorkTime({ workTimeData }: WorkTimeProps) {
   const [isStarted, setIsStarted] = useState(workTimeData?.isStarted ?? false);
   const [userData, setUserData] = useState(workTimeData);
 
   const { startWorkDay } = getFirebaseCollections();
 
-  const { 
+  const {
     workedTime: userTime,
     leftTime,
-    restOfTimePeriod 
+    restOfTimePeriod
   } = useWorkTime({ isStarted, userData });
   const getButtonText = () => isStarted ? 'Stop work day' : 'Start work day';
 
@@ -33,10 +36,10 @@ function WorkTime({ workTimeData }: { workTimeData: WorkTimeDb | undefined }) {
   }
 
   return (
-      <div className='work-time-block'>
-        <button className='start-day-button' onClick={changeStartStatus}>{getButtonText()}</button>
-        <WorkTimeWrapper {...workTimeProps} />
-      </div>
+    <div className='flex flex-col justify-center items-center'>
+      <button className='mb-7 bg-gray-700 text-slate-50' onClick={changeStartStatus}>{getButtonText()}</button>
+      <WorkTimeWrapper {...workTimeProps} />
+    </div>
   )
 }
 

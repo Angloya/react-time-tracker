@@ -1,10 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin: 0;
+  padding: 0;
   text-align: center;
 
   color-scheme: light dark;
@@ -83,173 +86,8 @@ button:focus-visible {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
-}
-
-.header-root {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 25px;
-  border-bottom: 2px double black;
-}
-
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100%;
-}
-
-.work-time-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.work-time-finished {
-  color: green
-}
-
-.work-time-stop {
-  color: red
-}
-
-.work-time-text {
-  font-size: 16px;
-}
-
-.work-time-time {
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.work-time {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  justify-content: space-between;
-  background-color: bisque;
-  border-radius: 8px;
-  width: 320px;
-  padding: 20px;
-  margin: 20px;
-  box-sizing: border-box;
-}
-
-.work-time-date {
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  padding: 4px;
-  border-radius: 4px;
-  font-size: 14px;
-  white-space: nowrap
-}
-
-.app-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.work-time-block {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.start-day-button {
-  margin-bottom: 30px;
-}
-
-.work-time-wrapper {
-  width: 400px;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-  background-color: aliceblue;
-  align-items: center;
-}
-
-.work-time-details {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-.work-time-details-text {
-  display: flex;
-  justify-content: space-between;
-  font-weight: 700;
-}
-
-.auth-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.auth-button {
-  max-width: 300px;
-  margin: 10px;
-}
-
-.auth-inputs {
-  display: flex;
-  flex-direction: column;
-  width: 400px;
-}
-
-.auth-input {
-  margin-bottom: 10px;
-  padding: 8px;
-}
-
-.link {
-  color: #646cff;
-  cursor: pointer;
 }

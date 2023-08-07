@@ -1,8 +1,10 @@
-import { useState, useEffect,  } from 'react'
+import { useState, useEffect, Suspense, lazy } from 'react'
+import Loading from "../components/ui/Loader"
 import WorkTime from '../components/WorkTime'
 import getFirebaseCollections from "../utils/getFirebaseCollections"
 import { WorkTimeDb } from "../model/interfaces";
 
+const HolydayWidget = lazy(() => import('../components/holydaysWidget'));
 
 function App() {
   const [workTimeData, setWorkTimeData] = useState<WorkTimeDb | undefined>();
@@ -21,11 +23,17 @@ function App() {
   }, [])
 
   return (
-      <div className='app-page'>
-        {isLoading
-          ? 'load'
-          : <WorkTime workTimeData={workTimeData} />}
+    <div className="flex justify-start items-start">
+      <div className="mr-20">
+        <Suspense fallback={<Loading />}>
+          <HolydayWidget />
+        </Suspense>
       </div>
+
+      {isLoading
+        ? <Loading />
+        : <WorkTime workTimeData={workTimeData} />}
+    </div>
   )
 }
 

@@ -38,9 +38,9 @@ const getRestOfTime = ({ isStarted, userData }: UseWorkTimeParams) => {
     if (userData) {
         const dayKeys = Object.keys(userData).filter((key) => checkDayOfMonth(key) && todayDate !== Number(key))
         restOfTimePeriod = dayKeys.reduce(
-            (accumulator: number, key: string) => 
+            (accumulator: number, key: string) =>
                 accumulator + userData[key].restOfTime, restOfTimePeriod
-            )
+        )
     }
     const workTime = dayWorkTime - restOfTime
 

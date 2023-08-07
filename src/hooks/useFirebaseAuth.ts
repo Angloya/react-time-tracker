@@ -50,6 +50,8 @@ function useFirebaseAuth() {
         await firebaseAuth.onAuthStateChanged(user => {
             if (user) {
                 addUser(user)
+            } else {
+                dispatch(logout)
             }
         });
     }

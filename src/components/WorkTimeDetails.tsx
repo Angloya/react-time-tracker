@@ -20,25 +20,25 @@ function WorkTimeDetails({ isWorkDayFinished, userLeftTime, isStarted }: WorkTim
     const time = isWorkDayFinished ? getFormattedTime(new Date()) : getFormattedTime(dateNow);
 
     return (
-            <div className={'work-time-details'}>
-                {isStarted &&
-                    <>
-                        <p className={'work-time-details-text'}>
-                            <span>Expected end date of work day</span>
-                            <span>{date}</span>
-                        </p>
-                        <p className={'work-time-details-text'}>
-                            <span>Expected end time of work day</span>
-                            <span>{time}</span>
-                        </p>
-                    </>
-                }
+        <div className="w-full flex flex-col p-4">
+            {isStarted &&
+                <>
+                    <p className="flex justify-between font-medium mb-2">
+                        <span>Expected end date of work day</span>
+                        <span>{date}</span>
+                    </p>
+                    <p className="flex justify-between font-medium mb-2">
+                        <span>Expected end time of work day</span>
+                        <span>{time}</span>
+                    </p>
+                </>
+            }
 
-                <p className={'work-time-details-text'}>
-                    <span>{text}</span>
-                    <span>{formattedTime}</span>
-                </p>
-            </div>
+            <p className="flex justify-between font-medium mb-2">
+                <span>{text}</span>
+                <span>{formattedTime}</span>
+            </p>
+        </div>
     )
 }
 

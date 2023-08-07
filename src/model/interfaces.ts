@@ -24,4 +24,16 @@ export interface DayWorkTimeDb {
 export type WorkTimeDb = {
     month: number
     isStarted: boolean
-} & {[key: string]: DayWorkTimeDb}
+} & { [key: string]: DayWorkTimeDb }
+
+export interface PublicHoliday {
+    date: string,
+    localName: string,
+    name: string,
+    countryCode: string,
+    fixed: boolean,
+    global: boolean,
+    counties: string[]
+    launchYear: number,
+    types: string[]
+}

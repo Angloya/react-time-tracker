@@ -55,19 +55,19 @@ function Auth() {
 
     return (
         <>
-            <div className='auth-page'>
-                <div className='auth-inputs'>
-                    <label id="email">Email</label>
+            <div className='flex flex-col justify-center items-center'>
+                <div className='flex flex-col w-96'>
+                    <label className="mb-2" id="email">Email</label>
                     <input
                         onChange={e => {
                             setEmail(e.target.value)
                         }}
                         value={email}
                         type="email"
-                        className='auth-input'
+                        className="border p-2 rounded mb-6"
                         required
                         placeholder='email' />
-                    <label id="password">Password</label>
+                    <label className="mb-2" id="password">Password</label>
                     <input
                         onChange={e => {
                             setPassword(e.target.value)
@@ -75,17 +75,17 @@ function Auth() {
                         value={password}
                         type="password"
                         required
-                        className='auth-input'
+                        className="border p-2 rounded mb-6"
                         placeholder='password' />
                 </div>
 
                 {error && <p>{error}</p>}
 
-                <button onClick={createUserWithEmail} className='auth-button'>{authButtonText}</button>
+                <button onClick={createUserWithEmail} className='w-48 m-2 bg-slate-100'>{authButtonText}</button>
 
-                <span className='link' onClick={changeAuthButton}>{linkText}</span>
+                <span className='cursor-pointer text-teal-700' onClick={changeAuthButton}>{linkText}</span>
 
-                <button onClick={authWithPopup} className='auth-button'>{AuthButtonText.GOOGLE}</button>
+                <button onClick={authWithPopup} className='w-48 m-2 bg-slate-100'>{AuthButtonText.GOOGLE}</button>
             </div>
         </>
     )
