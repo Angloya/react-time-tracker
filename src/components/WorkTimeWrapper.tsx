@@ -1,5 +1,5 @@
-import { formatTime } from "../utils/formatTime"
-import WorkTimeDetails from "./WorkTimeDetails"
+import { formatTime } from '../utils/formatTime';
+import WorkTimeDetails from './WorkTimeDetails';
 
 interface WorkTimeProps {
     leftTime: number
@@ -17,11 +17,11 @@ function WorkTimeWrapper({ leftTime, userTime, isWorkDayFinished, isStarted, res
     const formattedTime = converMillisecondsToTime(userLeftTime);
     const formattedUserTime = converMillisecondsToTime(userTime);
     const options: Intl.DateTimeFormatOptions = {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    }
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    };
     const date = new Date().toLocaleString('en-GB', options);
 
     const leftFinishedClassNames = isWorkDayFinished ? 'text-green-700 font-medium' : 'text-red-500 font-medium';
@@ -33,7 +33,7 @@ function WorkTimeWrapper({ leftTime, userTime, isWorkDayFinished, isStarted, res
         isWorkDayFinished: userRestOfTime < 0,
         userLeftTime: userRestOfTime,
         isStarted,
-    }
+    };
     return (
         <div className="flex flex-col border bg-gray-50 items-center mt-4 w-96 h-[400px]">
             <div className="relative flex justify-between bg-slate-200 rounded w-72 p-8 m-4">
@@ -50,7 +50,7 @@ function WorkTimeWrapper({ leftTime, userTime, isWorkDayFinished, isStarted, res
 
             <WorkTimeDetails {...workTimeDetailsProps} />
         </div>
-    )
+    );
 }
 
-export default WorkTimeWrapper
+export default WorkTimeWrapper;

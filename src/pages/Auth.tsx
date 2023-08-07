@@ -1,5 +1,5 @@
-import useFirebaseAuth from '../hooks/useFirebaseAuth'
-import { useState } from 'react'
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
+import { useState } from 'react';
 
 enum AuthText {
     LOGIN = 'You already have account? Click here to login',
@@ -22,36 +22,36 @@ function Auth() {
     const validateEmail = (email: string) => {
         const re = /\S+@\S+\.\S+/;
         return re.test(email);
-    }
+    };
 
     const validatePassword = (password: string) => {
         return password && password.length > 5;
-    }
+    };
 
     const changeAuthButton = () => {
         setIsLoginButton(!isLoginButton);
-    }
+    };
 
     const authButtonText = isLoginButton ? AuthButtonText.LOGIN : AuthButtonText.SIGNIN;
 
-    const linkText = isLoginButton ? AuthText.SIGNIN : AuthText.LOGIN
+    const linkText = isLoginButton ? AuthText.SIGNIN : AuthText.LOGIN;
 
     const createUserWithEmail = async () => {
         if (!validateEmail(email)) {
-            return setError('It is not a valid email')
+            return setError('It is not a valid email');
         } else if (!validatePassword(password)) {
-            return setError('Password must contain at least 6 characters')
+            return setError('Password must contain at least 6 characters');
         }
-        let result = null
+        let result = null;
         if (isLoginButton) {
-            result = await loginWithEmail({ email, password })
+            result = await loginWithEmail({ email, password });
         } else {
-            result = await authWithEmail({ email, password })
+            result = await authWithEmail({ email, password });
         }
         if (result && result.errorMessage) {
-            setError(result.errorMessage)
+            setError(result.errorMessage);
         }
-    }
+    };
 
     return (
         <>
@@ -60,7 +60,7 @@ function Auth() {
                     <label className="mb-2" id="email">Email</label>
                     <input
                         onChange={e => {
-                            setEmail(e.target.value)
+                            setEmail(e.target.value);
                         }}
                         value={email}
                         type="email"
@@ -70,7 +70,7 @@ function Auth() {
                     <label className="mb-2" id="password">Password</label>
                     <input
                         onChange={e => {
-                            setPassword(e.target.value)
+                            setPassword(e.target.value);
                         }}
                         value={password}
                         type="password"
@@ -88,7 +88,7 @@ function Auth() {
                 <button onClick={authWithPopup} className='w-48 m-2 bg-slate-100'>{AuthButtonText.GOOGLE}</button>
             </div>
         </>
-    )
+    );
 }
 
-export default Auth
+export default Auth;

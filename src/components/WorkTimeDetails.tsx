@@ -1,4 +1,5 @@
-import { formatTime } from "../utils/formatTime"
+import { formatTime } from '../utils/formatTime';
+import DetailsText from '../components/ui/DetailsText';
 
 interface WorkTimeDetailsProps {
     isWorkDayFinished: boolean
@@ -23,23 +24,23 @@ function WorkTimeDetails({ isWorkDayFinished, userLeftTime, isStarted }: WorkTim
         <div className="w-full flex flex-col p-4">
             {isStarted &&
                 <>
-                    <p className="flex justify-between font-medium mb-2">
+                <DetailsText>
                         <span>Expected end date of work day</span>
                         <span>{date}</span>
-                    </p>
-                    <p className="flex justify-between font-medium mb-2">
+                </DetailsText>
+                <DetailsText>
                         <span>Expected end time of work day</span>
                         <span>{time}</span>
-                    </p>
+                </DetailsText>
                 </>
             }
 
-            <p className="flex justify-between font-medium mb-2">
+            <DetailsText>
                 <span>{text}</span>
                 <span>{formattedTime}</span>
-            </p>
+            </DetailsText>
         </div>
-    )
+    );
 }
 
-export default WorkTimeDetails
+export default WorkTimeDetails;

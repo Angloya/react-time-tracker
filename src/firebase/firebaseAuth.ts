@@ -1,5 +1,5 @@
-import { auth } from './firebaseConfig'
-import { AuthEmailData } from "../model/interfaces"
+import { auth } from './firebaseConfig';
+import { AuthEmailData } from '../model/interfaces';
 import {
     signInWithPopup,
     createUserWithEmailAndPassword,
@@ -10,7 +10,7 @@ import {
     User,
     signOut,
     updateProfile
-} from "firebase/auth";
+} from 'firebase/auth';
 
 
 const provider = new GoogleAuthProvider();
@@ -33,6 +33,6 @@ const firebaseAuth = {
             displayName?: string
             photoURL?: string
         }) => auth.currentUser && updateProfile(auth.currentUser, { displayName, photoURL })
-}
+};
 
-export default firebaseAuth 
+export default firebaseAuth; 

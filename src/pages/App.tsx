@@ -1,8 +1,8 @@
-import { useState, useEffect, Suspense, lazy } from 'react'
-import Loading from "../components/ui/Loader"
-import WorkTime from '../components/WorkTime'
-import getFirebaseCollections from "../utils/getFirebaseCollections"
-import { WorkTimeDb } from "../model/interfaces";
+import { useState, useEffect, Suspense, lazy } from 'react';
+import Loading from '../components/ui/Loader';
+import WorkTime from '../components/WorkTime';
+import getFirebaseCollections from '../utils/getFirebaseCollections';
+import { WorkTimeDb } from '../model/interfaces';
 
 const HolydayWidget = lazy(() => import('../components/holydaysWidget'));
 
@@ -11,16 +11,16 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true)
+    setIsLoading(true);
     const dataFetch = async () => {
       const { getWorkDayData } = getFirebaseCollections();
-      const result = await getWorkDayData()
+      const result = await getWorkDayData();
       setWorkTimeData(result);
-      setIsLoading(false)
-    }
+      setIsLoading(false);
+    };
 
     dataFetch();
-  }, [])
+  }, []);
 
   return (
     <div className="flex justify-start items-start">
@@ -34,7 +34,7 @@ function App() {
         ? <Loading />
         : <WorkTime workTimeData={workTimeData} />}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

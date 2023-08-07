@@ -1,4 +1,4 @@
-import useFirebaseAuth from '../hooks/useFirebaseAuth'
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
 
 
 function Account() {
@@ -12,7 +12,7 @@ function Account() {
                 <p>{user?.phoneNumber}</p>
                 {user?.photoURL && <img alt="userPhoto" src={user?.photoURL}/>}
             </div>
-    )
+    );
 }
 
-export default Account
+export default Account;

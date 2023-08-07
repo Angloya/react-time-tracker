@@ -1,9 +1,9 @@
-import { useRouteError, isRouteErrorResponse, useNavigate } from "react-router-dom";
+import { useRouteError, isRouteErrorResponse, useNavigate } from 'react-router-dom';
 
 export default function ErrorPage() {
     const navigate = useNavigate();
     const error = useRouteError();
-    let errorMessage = ''
+    let errorMessage = '';
 
     if (isRouteErrorResponse(error)) {
         errorMessage = error.error?.message || error.statusText;
@@ -17,8 +17,8 @@ export default function ErrorPage() {
     }
 
     const redirectToMain = (): void => {
-        navigate('/')
-    }
+        navigate('/');
+    };
     return (
         <>
             <div>
@@ -28,5 +28,5 @@ export default function ErrorPage() {
                 <button onClick={redirectToMain}>Main page</button>
             </div>
         </>
-    )
+    );
 }

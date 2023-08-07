@@ -1,19 +1,19 @@
-import App from './pages/App'
-import Auth from './pages/Auth'
-import Root from './layout/root'
-import ErrorPage from './pages/ErrorPage'
-import SettingsPage from './pages/SettingsPage'
-import AccountPage from './pages/Account'
+import App from './pages/App';
+import Auth from './pages/Auth';
+import Root from './layout/root';
+import ErrorPage from './pages/ErrorPage';
+import SettingsPage from './pages/SettingsPage';
+import AccountPage from './pages/Account';
 import {
   createBrowserRouter,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 export const getRoute = (isUserLogged: boolean) => {
-  const defaultPage = isUserLogged ? <Root /> : <Auth />
+  const defaultPage = isUserLogged ? <Root /> : <Auth />;
 
   return createBrowserRouter([
     {
-      path: "/",
+      path: '/',
       element: defaultPage,
       errorElement: <ErrorPage />,
       children: [
@@ -22,19 +22,19 @@ export const getRoute = (isUserLogged: boolean) => {
           element: <App />,
         },
         {
-          path: "/settings",
+          path: '/settings',
           element: <SettingsPage />,
         },
         {
-          path: "/account",
+          path: '/account',
           element: <AccountPage />,
         },
         {
-          path: "/settings/:id",
+          path: '/settings/:id',
           element: <SettingsPage />,
         },
       ]
 
     },
   ]);
-}
+};
