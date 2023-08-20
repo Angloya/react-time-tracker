@@ -1,8 +1,6 @@
-import * as React from 'react';
+import { ReactChildren } from '../../model/interfaces';
 
-interface DetailsTextProps  { 
-    children: React.ReactNode
- }
+type DetailsTextProps = ReactChildren
 
 export default function DetailsText({children}: DetailsTextProps) {
     return (

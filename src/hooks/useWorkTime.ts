@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
-import { formatTime, TimeInMilliseconds } from "../utils/formatTime"
-import { WorkTimeDb } from "../model/interfaces";
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { formatTime, TimeInMilliseconds } from '../utils/formatTime';
+import { WorkTimeDb } from '../model/interfaces';
 
 interface UseWorkTimeParams {
     isStarted: boolean
@@ -14,20 +14,20 @@ enum DEFAULT_TIME {
 
 const checkDayOfMonth = (key: string) => {
     const re = /^([1-9]|[1-2][\d]|3[0-1])$/;
-    return re.test(key)
-}
+    return re.test(key);
+};
 
 const getRestOfTime = ({ isStarted, userData }: UseWorkTimeParams) => {
     const { getHours } = formatTime();
     const todayDate = new Date().getDate();
     const todayWorkTime = userData && userData[todayDate];
     const periods = todayWorkTime?.periods;
-    const dayWorkTime = getHours({ time: DEFAULT_TIME.LEFT_TIME })
+    const dayWorkTime = getHours({ time: DEFAULT_TIME.LEFT_TIME });
     let restOfTime = todayWorkTime?.restOfTime ?? dayWorkTime;
     let restOfTimePeriod = 0;
 
     if (periods && isStarted) {
-        const date = Date.now()
+        const date = Date.now();
         const lastPeriodIndex = periods.length;
         const startPeriod = periods[lastPeriodIndex - 1].start;
         if (startPeriod) {
@@ -36,55 +36,55 @@ const getRestOfTime = ({ isStarted, userData }: UseWorkTimeParams) => {
     }
 
     if (userData) {
-        const dayKeys = Object.keys(userData).filter((key) => checkDayOfMonth(key) && todayDate !== Number(key))
+        const dayKeys = Object.keys(userData).filter((key) => checkDayOfMonth(key) && todayDate !== Number(key));
         restOfTimePeriod = dayKeys.reduce(
             (accumulator: number, key: string) =>
                 accumulator + userData[key].restOfTime, restOfTimePeriod
-        )
+        );
     }
-    const workTime = dayWorkTime - restOfTime
+    const workTime = dayWorkTime - restOfTime;
 
     return {
         restOfTime,
         workTime,
         restOfTimePeriod
-    }
-}
+    };
+};
 
 function useWorkTime({ isStarted, userData }: UseWorkTimeParams) {
     const timeout = useRef<NodeJS.Timeout>();
 
-    const [leftTime, setLeftTime] = useState(() => getRestOfTime({ isStarted, userData }).restOfTime)
-    const [workedTime, setWorkedTime] = useState(() => getRestOfTime({ isStarted, userData }).workTime)
+    const [leftTime, setLeftTime] = useState(() => getRestOfTime({ isStarted, userData }).restOfTime);
+    const [workedTime, setWorkedTime] = useState(() => getRestOfTime({ isStarted, userData }).workTime);
 
-    const restOfTimePeriod = getRestOfTime({ isStarted, userData }).restOfTimePeriod
+    const restOfTimePeriod = getRestOfTime({ isStarted, userData }).restOfTimePeriod;
 
     const changeTime = useCallback(() => {
-        setLeftTime(() => getRestOfTime({ isStarted, userData }).restOfTime)
-        setWorkedTime(() => getRestOfTime({ isStarted, userData }).workTime)
-    }, [isStarted, userData])
+        setLeftTime(() => getRestOfTime({ isStarted, userData }).restOfTime);
+        setWorkedTime(() => getRestOfTime({ isStarted, userData }).workTime);
+    }, [isStarted, userData]);
 
     const startTimer = useCallback(() => {
         if (isStarted) {
-            timeout.current = setTimeout(changeTime, TimeInMilliseconds.SECOND)
+            timeout.current = setTimeout(changeTime, TimeInMilliseconds.SECOND);
         }
 
-    }, [changeTime, isStarted])
+    }, [changeTime, isStarted]);
 
     useEffect(() => {
         if (isStarted) {
-            startTimer()
+            startTimer();
         }
         return () => {
-            clearTimeout(timeout.current)
-        }
-    }, [isStarted, leftTime, startTimer])
+            clearTimeout(timeout.current);
+        };
+    }, [isStarted, leftTime, startTimer]);
 
     return {
         leftTime,
         workedTime,
         restOfTimePeriod
-    }
+    };
 }
 
-export default useWorkTime
+export default useWorkTime;

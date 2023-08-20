@@ -1,36 +1,53 @@
-import { useState, useEffect } from "react"
-import { PublicHoliday } from "../../model/interfaces"
-import { holidayApi } from "../../utils/holydaysApi"
-import Loader from "../ui/Loader"
+import { useState, useEffect, useCallback } from 'react';
+import { PublicHoliday, CountryInfo } from '../../model/interfaces';
+import { holidayApi } from '../../utils/holydaysApi';
+import HolydaysList from './HolydaysList';
+import CountriesDropdown from './CountriesDropdown';
 
 export default function HolydaysWidget() {
+    const [isLoading, setIsLoading] = useState(true);
     const [holydays, setHolydays] = useState<PublicHoliday[]>();
+    const [countries, setCountries] = useState<CountryInfo[]>();
+    const [selectedCountry, setSelectedCountry] = useState('Cyprus');
+
+    const getHolydays = useCallback(async (country?: CountryInfo) => {
+        const holydays: PublicHoliday[] | undefined = await holidayApi.getHolydays(country?.countryCode);
+        setHolydays(holydays);
+        if (country) {
+            setSelectedCountry(country.name);
+        }
+    }, []);
+
+    const getCountries = useCallback(async () => {
+        const countries: CountryInfo[] | undefined = await holidayApi.getCountries();
+        setCountries(countries);
+    }, []);
 
     useEffect(() => {
         const fetchHolydays = async () => {
-            const holydays: PublicHoliday[] = await holidayApi.getHolydays
-            setHolydays(holydays)
-        }
-        fetchHolydays()
-    }, [])
+            setIsLoading(true);
+            await Promise.all([getHolydays(), getCountries()]);
+            setIsLoading(false);
+        };
+        fetchHolydays();
+    }, [getHolydays, getCountries]);
+
+    const onCountrySelect = useCallback((country: CountryInfo) => {
+        getHolydays(country);
+    }, [getHolydays]);
 
     return (
-        <div className="rounded-2xl bg-gray-50 px-10 py-5 text-center ring-1 ring-inset ring-gray-900/5">
-            <h2 className="font-medium mb-4">Public holidays</h2>
-            <div>{
-                holydays
-                    ? holydays.map((day: PublicHoliday) =>
-                        <li key={day.date} className="list-none flex justify-between my-2 py-2 border-indigo-300 border-b-2">
-                            <span className="mr-10">
-                                {day.name}
-                            </span>
-                            <span>
-                                {day.date}
-                            </span>
-
-                        </li>)
-                    : <Loader />
-            }</div>
+        <div className='p-4 bg-zinc-400 flex flex-col justify-center items-center rounded'>
+            {
+                !isLoading &&
+                <>
+                    <CountriesDropdown
+                        selectedCountry={selectedCountry}
+                        countries={countries}
+                        onCountrySelect={onCountrySelect} />
+                    <HolydaysList holydays={holydays} />
+                </>
+            }
         </div>
-    )
+    );
 }

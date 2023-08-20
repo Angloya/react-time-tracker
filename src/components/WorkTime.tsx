@@ -10,7 +10,7 @@ interface WorkTimeProps {
 
 function WorkTime({ workTimeData }: WorkTimeProps) {
   const [isStarted, setIsStarted] = useState(workTimeData?.isStarted ?? false);
-  const [userData, setUserData] = useState(workTimeData);
+  let userData = workTimeData;
 
   const { startWorkDay } = getFirebaseCollections();
 
@@ -23,7 +23,7 @@ function WorkTime({ workTimeData }: WorkTimeProps) {
 
   const changeStartStatus = async (): Promise<void> => {
     const data = await startWorkDay(!isStarted, leftTime, userTime);
-    setUserData(data);
+    userData = data;
     setIsStarted(!isStarted);
   };
 

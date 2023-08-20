@@ -1,6 +1,12 @@
+import * as React from 'react';
+
 export interface AuthEmailData {
     email: string
     password: string
+}
+
+export interface DropdownItem {
+    name: string
 }
 
 export interface UserResult {
@@ -27,13 +33,22 @@ export type WorkTimeDb = {
 } & { [key: string]: DayWorkTimeDb }
 
 export interface PublicHoliday {
-    date: string,
-    localName: string,
-    name: string,
-    countryCode: string,
-    fixed: boolean,
-    global: boolean,
+    date: string
+    localName: string
+    name: string
+    countryCode: string
+    fixed: boolean
+    global: boolean
     counties: string[]
-    launchYear: number,
+    launchYear: number
     types: string[]
+}
+
+export interface CountryInfo {
+    countryCode: string
+    name: string
+}
+
+export interface ReactChildren {
+    children: React.ReactNode
 }
