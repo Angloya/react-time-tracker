@@ -1,6 +1,6 @@
-import { DocumentData } from "firebase/firestore";
-import { Period, DayWorkTimeDb } from "../model/interfaces";
-import { formatTime } from "../utils/formatTime"
+import { DocumentData } from 'firebase/firestore';
+import { Period, DayWorkTimeDb, FormattedPeriod } from '../model/interfaces';
+import { formatTime } from '../utils/formatTime';
 
 enum DEFAULT_TIME {
     LEFT_TIME = 8,
@@ -19,8 +19,8 @@ export const getFormattedPeriod = (
         restOfTime?: number,
         workTime?: number,
     }
-) => {
-    const { getHours } = formatTime()
+): FormattedPeriod => {
+    const { getHours } = formatTime();
     const date = new Date().getDate();
     const month = new Date().getMonth();
     const todayData: DayWorkTimeDb | undefined = data && data[date];
@@ -30,9 +30,9 @@ export const getFormattedPeriod = (
     const todayLeftTime = todayData ? restOfTime : getHours({ time: DEFAULT_TIME.LEFT_TIME });
 
     if (todayData?.periods) {
-        const periods = todayData.periods
+        const periods = todayData.periods;
         if (!isStarted) {
-            periods[periods.length - 1].finish = Date.now()
+            periods[periods.length - 1].finish = Date.now();
         }
 
         newPeriod = [
@@ -43,7 +43,7 @@ export const getFormattedPeriod = (
     if (isStarted) {
         newPeriod.push({
             start: Date.now()
-        })
+        });
     }
 
     return {
@@ -55,6 +55,6 @@ export const getFormattedPeriod = (
             restOfTime: todayLeftTime,
             workTime: todayData ? workTime : DEFAULT_TIME.WORK_TIME,
         }
-    }
+    };
 
-}
+};

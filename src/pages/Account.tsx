@@ -1,7 +1,7 @@
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
+import { ReactElement } from 'react';
 
-
-function Account() {
+export default function Account (): ReactElement {
     const { getUserData } = useFirebaseAuth();
     const user = getUserData();
 
@@ -14,5 +14,3 @@ function Account() {
             </div>
     );
 }
-
-export default Account;

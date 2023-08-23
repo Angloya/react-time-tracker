@@ -6,7 +6,7 @@ import {
     RouterProvider,
 } from 'react-router-dom';
 
-function RouteWrapper() {
+export default function RouteWrapper(): JSX.Element {
     const { checkUser } = useFirebaseAuth();
     const isLogged = useSelector((state: RootState) => state.user.isLogged);
 
@@ -15,5 +15,3 @@ function RouteWrapper() {
         <RouterProvider router={getRoute(isLogged)} />
     );
 }
-
-export default RouteWrapper;

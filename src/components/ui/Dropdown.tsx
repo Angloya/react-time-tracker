@@ -1,4 +1,4 @@
-import {useState, ChangeEvent, useRef, useEffect} from 'react';
+import { useState, ChangeEvent, useRef, useEffect } from 'react';
 import { dropdownClasses } from '../../model/classes';
 import { DropdownItem } from '../../model/interfaces';
 
@@ -8,19 +8,19 @@ interface DropdownProps<TItem> {
     onClickEvent: (item: TItem) => void;
 }
 
-export default function Dropdown<TItem extends DropdownItem>({ text, items, onClickEvent }: DropdownProps<TItem>) {
+export default function Dropdown<TItem extends DropdownItem>({ text, items, onClickEvent }: DropdownProps<TItem>): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
     const [inputText, setInputText] = useState('');
     const [filtredList, setFiltredList] = useState<TItem[] | undefined>(items);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const showDropdown = async () => {
+    const showDropdown = async (): Promise<void> => {
         setFiltredList(items);
         setInputText('');
         setIsOpen((prev) => !prev);
     };
     
-    const onItemClick = ((item: TItem) => {
+    const onItemClick = ((item: TItem): void => {
         showDropdown();
         onClickEvent(item);
     });
@@ -30,13 +30,13 @@ export default function Dropdown<TItem extends DropdownItem>({ text, items, onCl
         return (
             <li key={idx}
                 className={dropdownClasses.dropdownList}
-                onClick={() => onItemClick(item)}>
+                onClick={():void => onItemClick(item)}>
                 {name}
             </li>
         );
     });
 
-    const filterList = (event: ChangeEvent<HTMLInputElement>) => {
+    const filterList = (event: ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.target;
         const filtrefItems = items?.filter((item) => item.name.toLowerCase().includes(value.toLowerCase()));
         setInputText(value);
@@ -74,7 +74,11 @@ export default function Dropdown<TItem extends DropdownItem>({ text, items, onCl
                     <div className='border-2 border-neutral-200 rounded'>
                         <input ref={inputRef} value={inputText} onInput={filterList} className='w-full p-2 rounded' placeholder='Search' />
                     </div>
-                    {list?.length ? list : <li className='p-2'>Not Found</li>}
+                    {
+                        list?.length 
+                        ? list 
+                        : <li className='p-2'>Not Found</li>
+                    }
                 </ul>
             </div >
         </div>

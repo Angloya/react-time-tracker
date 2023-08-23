@@ -1,8 +1,8 @@
-import { AuthError } from "firebase/auth";
+import { AuthError } from 'firebase/auth';
 
 const firebaseErrors = {
     'auth/email-already-in-use': 'You already have an account. Please singin'
-}
+};
 
 export interface FirebaseAuthError {
     errorCode: string;
@@ -13,7 +13,7 @@ export interface FirebaseAuthError {
 
 export const handleAuthError = (error: AuthError): FirebaseAuthError => {
     const errorCode = error.code;
-    console.log(error.code)
+    console.log(error.code);
     const errorMessage = firebaseErrors[error.code as keyof typeof firebaseErrors] || error.message;
     const email = error.customData.email;
 
@@ -21,5 +21,5 @@ export const handleAuthError = (error: AuthError): FirebaseAuthError => {
         errorCode,
         errorMessage,
         email,
-    }
-}
+    };
+};

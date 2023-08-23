@@ -8,7 +8,7 @@ interface WorkTimeProps {
   workTimeData?: WorkTimeDb
 }
 
-function WorkTime({ workTimeData }: WorkTimeProps) {
+function WorkTime({ workTimeData }: WorkTimeProps): JSX.Element {
   const [isStarted, setIsStarted] = useState(workTimeData?.isStarted ?? false);
   let userData = workTimeData;
 
@@ -19,7 +19,7 @@ function WorkTime({ workTimeData }: WorkTimeProps) {
     leftTime,
     restOfTimePeriod
   } = useWorkTime({ isStarted, userData });
-  const getButtonText = () => isStarted ? 'Stop work day' : 'Start work day';
+  const getButtonText = (): string => isStarted ? 'Stop work day' : 'Start work day';
 
   const changeStartStatus = async (): Promise<void> => {
     const data = await startWorkDay(!isStarted, leftTime, userTime);

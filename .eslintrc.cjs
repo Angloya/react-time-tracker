@@ -12,6 +12,7 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'warn',
     'semi': [2, 'always'],
-    quotes: ['error', 'single']
+    quotes: ['error', 'single'],
+    '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true}]
   },
 };

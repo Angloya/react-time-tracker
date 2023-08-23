@@ -6,10 +6,10 @@ import { useDispatch } from 'react-redux';
 import { AuthEmailData } from '../model/interfaces';
 
 
-function useFirebaseAuth() {
+export default function useFirebaseAuth() {
     const dispatch = useDispatch();
 
-    const addUser = (user: User) => {
+    const addUser = (user: User): void => {
         dispatch(login({
             name: user.displayName,
             email: user.email,
@@ -46,7 +46,7 @@ function useFirebaseAuth() {
         return result;
     };
 
-    const checkUser = async () => {
+    const checkUser = async (): Promise<void> => {
         await firebaseAuth.onAuthStateChanged(user => {
             if (user) {
                 addUser(user);
@@ -66,5 +66,3 @@ function useFirebaseAuth() {
     };
 
 }
-
-export default useFirebaseAuth;

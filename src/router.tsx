@@ -4,11 +4,13 @@ import Root from './layout/root';
 import ErrorPage from './pages/ErrorPage';
 import SettingsPage from './pages/SettingsPage';
 import AccountPage from './pages/Account';
+import SettingsAccount from './pages/Settings/Account';
+import SettingsTime from './pages/Settings/Time';
 import {
-  createBrowserRouter,
+  createBrowserRouter
 } from 'react-router-dom';
 
-export const getRoute = (isUserLogged: boolean) => {
+export const getRoute = (isUserLogged: boolean): ReturnType<typeof createBrowserRouter> => {
   const defaultPage = isUserLogged ? <Root /> : <Auth />;
 
   return createBrowserRouter([
@@ -24,6 +26,16 @@ export const getRoute = (isUserLogged: boolean) => {
         {
           path: '/settings',
           element: <SettingsPage />,
+          children: [
+            {
+              path: '/settings/account',
+              element: <SettingsAccount />,
+            },
+            {
+              path: '/settings/time',
+              element: <SettingsTime />,
+            },
+          ]
         },
         {
           path: '/account',

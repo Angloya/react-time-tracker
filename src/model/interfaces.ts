@@ -32,6 +32,11 @@ export type WorkTimeDb = {
     isStarted: boolean
 } & { [key: string]: DayWorkTimeDb }
 
+export type FormattedPeriod = {
+    month: number
+    isStarted?: boolean
+} & { [key: number]: DayWorkTimeDb }
+
 export interface PublicHoliday {
     date: string
     localName: string
@@ -51,4 +56,17 @@ export interface CountryInfo {
 
 export interface ReactChildren {
     children: React.ReactNode
+}
+
+export interface TabItem {
+    name: string
+    url?: string
+    id: string | number
+}
+
+export interface UiTabsProps<TItem> {
+    tabClick: (item: TItem) => void
+    isNav?: boolean
+    list: TItem[]
+    selectedTab: TItem
 }

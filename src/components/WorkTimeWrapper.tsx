@@ -9,7 +9,7 @@ interface WorkTimeProps {
     restOfTimePeriod: number
 }
 
-function WorkTimeWrapper({ leftTime, userTime, isWorkDayFinished, isStarted, restOfTimePeriod }: WorkTimeProps) {
+function WorkTimeWrapper({ leftTime, userTime, isWorkDayFinished, isStarted, restOfTimePeriod }: WorkTimeProps): JSX.Element {
     const { converMillisecondsToTime } = formatTime();
 
     const userLeftTime = leftTime > 0 ? leftTime : Math.abs(leftTime);

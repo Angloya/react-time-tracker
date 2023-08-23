@@ -7,7 +7,7 @@ interface CountriesDropdownProps {
     selectedCountry: string
 }
 
-export default function CountriesDropdown({ countries, onCountrySelect, selectedCountry }: CountriesDropdownProps) {
+export default function CountriesDropdown({ countries, onCountrySelect, selectedCountry }: CountriesDropdownProps): JSX.Element {
     return (<>
         <div className='w-56 mb-6 p-2 bg-gray-50 rounded'>
         <h3>Select country: </h3>

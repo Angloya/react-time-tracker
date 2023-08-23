@@ -7,7 +7,7 @@ interface WorkTimeDetailsProps {
     isStarted: boolean,
 }
 
-function WorkTimeDetails({ isWorkDayFinished, userLeftTime, isStarted }: WorkTimeDetailsProps) {
+export default function WorkTimeDetails({ isWorkDayFinished, userLeftTime, isStarted }: WorkTimeDetailsProps): JSX.Element {
     const {
         converMillisecondsToTime,
         getFormattedDate,
@@ -42,5 +42,3 @@ function WorkTimeDetails({ isWorkDayFinished, userLeftTime, isStarted }: WorkTim
         </div>
     );
 }
-
-export default WorkTimeDetails;

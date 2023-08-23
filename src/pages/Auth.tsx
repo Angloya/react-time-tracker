@@ -1,5 +1,5 @@
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
-import { useState } from 'react';
+import { useState, ReactElement } from 'react';
 
 enum AuthText {
     LOGIN = 'You already have account? Click here to login',
@@ -12,23 +12,23 @@ enum AuthButtonText {
     GOOGLE = 'SignIn with google'
 }
 
-function Auth() {
+export default function Auth(): ReactElement {
     const { authWithPopup, authWithEmail, loginWithEmail } = useFirebaseAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoginButton, setIsLoginButton] = useState(false);
 
-    const validateEmail = (email: string) => {
+    const validateEmail = (email: string): boolean => {
         const re = /\S+@\S+\.\S+/;
         return re.test(email);
     };
 
-    const validatePassword = (password: string) => {
-        return password && password.length > 5;
+    const validatePassword = (password: string): boolean => {
+        return !!(password && password.length > 5);
     };
 
-    const changeAuthButton = () => {
+    const changeAuthButton = (): void => {
         setIsLoginButton(!isLoginButton);
     };
 
@@ -36,7 +36,7 @@ function Auth() {
 
     const linkText = isLoginButton ? AuthText.SIGNIN : AuthText.LOGIN;
 
-    const createUserWithEmail = async () => {
+    const createUserWithEmail = async (): Promise<void> => {
         if (!validateEmail(email)) {
             return setError('It is not a valid email');
         } else if (!validatePassword(password)) {
@@ -90,5 +90,3 @@ function Auth() {
         </>
     );
 }
-
-export default Auth;

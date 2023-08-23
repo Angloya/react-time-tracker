@@ -1,4 +1,4 @@
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect, Suspense, lazy, ReactElement } from 'react';
 import Loading from '../components/ui/Loader';
 import WorkTime from '../components/WorkTime';
 import getFirebaseCollections from '../utils/getFirebaseCollections';
@@ -6,13 +6,13 @@ import { WorkTimeDb } from '../model/interfaces';
 
 const HolydayWidget = lazy(() => import('../components/holydaysWidget'));
 
-function App() {
+function App(): ReactElement {
   const [workTimeData, setWorkTimeData] = useState<WorkTimeDb | undefined>();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     setIsLoading(true);
-    const dataFetch = async () => {
+    const dataFetch = async (): Promise<void> => {
       const { getWorkDayData } = getFirebaseCollections();
       const result = await getWorkDayData();
       setWorkTimeData(result);

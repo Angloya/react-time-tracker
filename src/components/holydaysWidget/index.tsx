@@ -4,7 +4,7 @@ import { holidayApi } from '../../utils/holydaysApi';
 import HolydaysList from './HolydaysList';
 import CountriesDropdown from './CountriesDropdown';
 
-export default function HolydaysWidget() {
+export default function HolydaysWidget(): JSX.Element {
     const [isLoading, setIsLoading] = useState(true);
     const [holydays, setHolydays] = useState<PublicHoliday[]>();
     const [countries, setCountries] = useState<CountryInfo[]>();
@@ -24,7 +24,7 @@ export default function HolydaysWidget() {
     }, []);
 
     useEffect(() => {
-        const fetchHolydays = async () => {
+        const fetchHolydays = async (): Promise<void> => {
             setIsLoading(true);
             await Promise.all([getHolydays(), getCountries()]);
             setIsLoading(false);
