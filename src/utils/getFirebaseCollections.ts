@@ -1,25 +1,33 @@
 import firebaseCollections from '../firebase/firebaseCollections';
-import { WorkTimeDb } from '../model/interfaces';
+import { WorkTimeDb, TaskCollection, FormattedPeriod } from '../model/interfaces';
 
 interface FirebaseCollections {
-    startWorkDay: (isStarted: boolean, leftTime: number, workTime: number) => Promise<WorkTimeDb | undefined>
-    getWorkDayData: () => Promise<WorkTimeDb | undefined>
+    startWorkDay: (isStarted: boolean, leftTime: number, workTime: number) => Promise<FormattedPeriod | undefined>
+    getWorkDayData: () => Promise<FormattedPeriod | undefined>
+    getTasksList: () => Promise<TaskCollection | undefined>
 }
 
 export default function getFirebaseCollections(): FirebaseCollections {
-    const { setWorkTime, getWorkTime } = firebaseCollections();
-    const startWorkDay = async (isStarted: boolean, leftTime: number, workTime: number): Promise<WorkTimeDb | undefined> => {
+    const { setWorkTime, getWorkTime, getTasks } = firebaseCollections();
+
+    const startWorkDay: FirebaseCollections['startWorkDay'] = async (isStarted, leftTime, workTime) => {
         await setWorkTime(isStarted, leftTime, workTime);
         return await getWorkDayData();
     };
 
-    const getWorkDayData = async (): Promise<WorkTimeDb | undefined> => {
-        const data: WorkTimeDb | undefined = await getWorkTime();
+    const getWorkDayData: FirebaseCollections['getWorkDayData'] = async () => {
+        const data: FormattedPeriod | undefined = await getWorkTime();
+        return data;
+    };
+
+    const getTasksList: FirebaseCollections['getTasksList'] = async () => {
+        const data: TaskCollection | undefined = await getTasks();
         return data;
     };
 
     return {
         startWorkDay,
-        getWorkDayData
+        getWorkDayData,
+        getTasksList
     };
 }

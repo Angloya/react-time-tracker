@@ -1,40 +1,50 @@
-import { useState, useEffect, Suspense, lazy, ReactElement } from 'react';
+import { useState, useEffect, ReactElement } from 'react';
 import Loading from '../components/ui/Loader';
-import WorkTime from '../components/WorkTime';
+import TaskList from '../components/task/TaskList';
+import AddTaskPopup from '../components/task/AddTaskPopup';
+import { TaskCollection } from '../model/interfaces';
 import getFirebaseCollections from '../utils/getFirebaseCollections';
-import { WorkTimeDb } from '../model/interfaces';
-
-const HolydayWidget = lazy(() => import('../components/holydaysWidget'));
+import Plus from '../components/ui/icons/Plus';
 
 function App(): ReactElement {
-  const [workTimeData, setWorkTimeData] = useState<WorkTimeDb | undefined>();
-  const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [taskCol, setTaskCol] = useState<TaskCollection>();
 
-  useEffect(() => {
-    setIsLoading(true);
-    const dataFetch = async (): Promise<void> => {
-      const { getWorkDayData } = getFirebaseCollections();
-      const result = await getWorkDayData();
-      setWorkTimeData(result);
-      setIsLoading(false);
+    const toggleModal = (): void => {
+        setShowModal((value) => !value);
     };
 
-    dataFetch();
-  }, []);
+    const dataFetch = async (): Promise<void> => {
+        const { getTasksList } = getFirebaseCollections();
+        const result = await getTasksList();
+        setTaskCol(result);
+        setIsLoading(false);
+    };
 
-  return (
-    <div className="flex justify-start items-start">
-      <div className="mr-20">
-        <Suspense fallback={<Loading />}>
-          <HolydayWidget />
-        </Suspense>
-      </div>
+    const updateList = (): void => {
+        toggleModal();
+        dataFetch();
+    };
 
-      {isLoading
-        ? <Loading />
-        : <WorkTime workTimeData={workTimeData} />}
-    </div>
-  );
+    useEffect(() => {
+        setIsLoading(true);
+        dataFetch();
+    }, []);
+
+    return (
+        <div className="flex justify-center items-start">
+            <button onClick={toggleModal} className="absolute flex items-center justify-between right-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                <span className='pr-2'>Create Task </span>
+                <Plus/>
+            </button>
+            {isLoading
+                ? <Loading />
+                : <TaskList items={taskCol?.items} />}
+
+            {showModal && <AddTaskPopup closeEvent={toggleModal} createdEvent={updateList} />}
+        </div>
+    );
 }
 
 export default App;

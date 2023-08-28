@@ -5,11 +5,10 @@ interface WorkTimeProps {
     leftTime: number
     userTime: number
     isWorkDayFinished: boolean
-    isStarted: boolean,
-    restOfTimePeriod: number
+    isStarted: boolean
 }
 
-function WorkTimeWrapper({ leftTime, userTime, isWorkDayFinished, isStarted, restOfTimePeriod }: WorkTimeProps): JSX.Element {
+function WorkTimeWrapper({ leftTime, userTime, isWorkDayFinished, isStarted }: WorkTimeProps): JSX.Element {
     const { converMillisecondsToTime } = formatTime();
 
     const userLeftTime = leftTime > 0 ? leftTime : Math.abs(leftTime);
@@ -26,12 +25,9 @@ function WorkTimeWrapper({ leftTime, userTime, isWorkDayFinished, isStarted, res
 
     const leftFinishedClassNames = isWorkDayFinished ? 'text-green-700 font-medium' : 'text-red-500 font-medium';
     const leftText = isWorkDayFinished ? 'Overtime' : 'Left';
-    const userRestOfTime = isWorkDayFinished ? restOfTimePeriod + leftTime : restOfTimePeriod;
 
     const workTimeDetailsProps = {
         userTime,
-        isWorkDayFinished: userRestOfTime < 0,
-        userLeftTime: userRestOfTime,
         isStarted,
     };
     return (

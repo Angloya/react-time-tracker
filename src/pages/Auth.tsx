@@ -17,7 +17,7 @@ export default function Auth(): ReactElement {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const [isLoginButton, setIsLoginButton] = useState(false);
+    const [isLoginButton, setIsLoginButton] = useState(true);
 
     const validateEmail = (email: string): boolean => {
         const re = /\S+@\S+\.\S+/;
@@ -54,8 +54,8 @@ export default function Auth(): ReactElement {
     };
 
     return (
-        <>
-            <div className='flex flex-col justify-center items-center'>
+        <div className='flex flex-col justify-center items-center'>
+            <div className='flex flex-col justify-center items-center w-96'>
                 <div className='flex flex-col w-96'>
                     <label className="mb-2" id="email">Email</label>
                     <input
@@ -64,7 +64,7 @@ export default function Auth(): ReactElement {
                         }}
                         value={email}
                         type="email"
-                        className="border p-2 rounded mb-6"
+                        className="border p-2 rounded mb-6 "
                         required
                         placeholder='email' />
                     <label className="mb-2" id="password">Password</label>
@@ -76,17 +76,23 @@ export default function Auth(): ReactElement {
                         type="password"
                         required
                         className="border p-2 rounded mb-6"
-                        placeholder='password' />
+                        placeholder='••••••••' />
                 </div>
 
                 {error && <p>{error}</p>}
 
-                <button onClick={createUserWithEmail} className='w-48 m-2 bg-slate-100'>{authButtonText}</button>
+                {isLoginButton &&
+                    <div className='w-full flex justify-end'>
+                        <a href="#" className="text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
+                    </div>
+                }
 
-                <span className='cursor-pointer text-teal-700' onClick={changeAuthButton}>{linkText}</span>
+                <button onClick={createUserWithEmail} className='w-48 m-4 bg-blue-700 hover:bg-blue-800 text-white'>{authButtonText}</button>
 
-                <button onClick={authWithPopup} className='w-48 m-2 bg-slate-100'>{AuthButtonText.GOOGLE}</button>
+                <span className='cursor-pointer text-blue-700' onClick={changeAuthButton}>{linkText}</span>
+
+                <button onClick={authWithPopup} className='w-48 m-4 bg-slate-100'>{AuthButtonText.GOOGLE}</button>
             </div>
-        </>
+        </div>
     );
 }

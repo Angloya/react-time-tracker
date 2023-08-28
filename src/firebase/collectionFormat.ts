@@ -1,9 +1,9 @@
 import { DocumentData } from 'firebase/firestore';
-import { Period, DayWorkTimeDb, FormattedPeriod } from '../model/interfaces';
+import { Period, FormattedPeriod, FormattedCaledar, TaskItem, TaskCollection } from '../model/interfaces';
 import { formatTime } from '../utils/formatTime';
 
 enum DEFAULT_TIME {
-    LEFT_TIME = 8,
+    LEFT_TIME = 1,
     WORK_TIME = 0
 }
 
@@ -22,8 +22,7 @@ export const getFormattedPeriod = (
 ): FormattedPeriod => {
     const { getHours } = formatTime();
     const date = new Date().getDate();
-    const month = new Date().getMonth();
-    const todayData: DayWorkTimeDb | undefined = data && data[date];
+    const todayData = data as FormattedPeriod;
     let newPeriod: Period[] = [];
 
 
@@ -48,13 +47,71 @@ export const getFormattedPeriod = (
 
     return {
         ...(data ? data : {}),
-        month,
+        day: date,
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+        startTime: Date.now(),
         isStarted,
-        [date]: {
-            periods: newPeriod,
-            restOfTime: todayLeftTime,
-            workTime: todayData ? workTime : DEFAULT_TIME.WORK_TIME,
-        }
+        periods: newPeriod,
+        restOfTime: todayLeftTime,
+        workTime: todayData ? workTime : DEFAULT_TIME.WORK_TIME,
     };
 
+};
+
+export const getFormattedCalendar = ({ period, calendar }: {
+    period: FormattedPeriod,
+    calendar?: FormattedCaledar
+}): FormattedCaledar => {
+    let newCalendar: FormattedCaledar = { ...(calendar ? calendar : {}) };
+    const { converMillisecondsToHour } = formatTime();
+    const date = new Date().getDate();
+    const month = new Date().getMonth() + 1;
+
+    const year = new Date().getFullYear();
+    const todayData = newCalendar[year] && newCalendar[year][month] && newCalendar[year][month][date];
+    if (todayData) {
+        newCalendar[year][month][date] = {
+            ...todayData,
+            fullHour: 0,
+            periods: { ...period.periods, ...todayData.periods }
+        };
+    } else {
+        const fullHour = converMillisecondsToHour(period.periods.reduce((acc, curr) => {
+            if (curr.finish && curr.start) {
+                return acc + (curr.start - curr.finish);
+            } else {
+                return acc;
+            }
+        }, 0));
+        newCalendar = {
+            [year]: {
+                [month]: {
+                    [date]: {
+                        date: period.year,
+                        fullHour,
+                        periods: period.periods
+                    }
+                }
+            }
+        };
+    }
+
+    return newCalendar;
+};
+
+export const getTasksFormatted = (task: Exclude<TaskItem, 'id'>, tasks?: TaskCollection): TaskCollection => {
+    const formattedTasks: TaskItem[] = [];
+    const newTaskItem = { ...task };
+    if (tasks?.count) {
+        newTaskItem.id = tasks?.count;
+        formattedTasks.push(...tasks.items, newTaskItem);
+    } else {
+        newTaskItem.id = 0;
+        formattedTasks.push(newTaskItem);
+    }
+    return {
+        items: formattedTasks,
+        count: formattedTasks.length
+    };
 };

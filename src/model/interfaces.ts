@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { DocumentData } from 'firebase/firestore';
+import { TaskStatus } from './enums';
 
 export interface AuthEmailData {
     email: string
@@ -22,20 +24,37 @@ export interface Period {
 }
 
 export interface DayWorkTimeDb {
-    restOfTime: number
+    restOfTime?: number
     periods: Period[]
-    workTime: number
+    workTime?: number
 }
 
 export type WorkTimeDb = {
     month: number
     isStarted: boolean
-} & { [key: string]: DayWorkTimeDb }
+} & DayWorkTimeDb
 
-export type FormattedPeriod = {
+export interface FormattedPeriod extends DocumentData, DayWorkTimeDb {
+    day: number
     month: number
+    year: number
+    startTime: number,
     isStarted?: boolean
-} & { [key: number]: DayWorkTimeDb }
+}
+
+export interface FormattedCaledarDay {
+    date: number
+    fullHour: number
+    periods: Period[]
+}
+
+export interface FormattedCaledar extends DocumentData {
+    [key: number]: {
+        [key: number]: {
+            [key: number]: FormattedCaledarDay
+        }
+    }
+}
 
 export interface PublicHoliday {
     date: string
@@ -69,4 +88,19 @@ export interface UiTabsProps<TItem> {
     isNav?: boolean
     list: TItem[]
     selectedTab: TItem
+}
+
+export interface TaskItem {
+    group: string
+    title: string
+    spendTime: number
+    fullTime: number
+    text?: string
+    status: TaskStatus
+    id: number
+}
+
+export interface TaskCollection {
+    items: TaskItem[]
+    count: number
 }

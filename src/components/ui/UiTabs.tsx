@@ -6,7 +6,9 @@ export default function UiTabs<TItem extends TabItem>({ tabClick, isNav, list, s
     const getLinkComponent = (item: TItem): JSX.Element => {
         const name: string = item.name;
         const isActiveTab = selectedTab.id === item.id;
-        return isNav ? <UiNavLink isTab={true} url={item.url ?? ''}>{name}</UiNavLink> : <UiTabLink isActive={isActiveTab}>{name}</UiTabLink>;
+        return isNav 
+        ? <UiNavLink isTab={true} url={item.url ?? ''}>{name}</UiNavLink> 
+        : <UiTabLink isActive={isActiveTab}>{name}</UiTabLink>;
     };
 
     const onTabClick = (item: TItem): void => {
