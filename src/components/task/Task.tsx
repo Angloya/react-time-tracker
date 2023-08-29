@@ -1,22 +1,33 @@
 import { TaskItem } from '../../model/interfaces';
 import { useNavigate } from 'react-router-dom';
-
+import CloseButton from '../ui/CloseButton';
+import firebaseCollections from '../../firebase/firebaseCollections';
+import React from 'react';
 
 interface TaskProps {
     item: TaskItem
+    updateTask: () => void
 }
 
-export default function Task({ item }: TaskProps): JSX.Element {
+export default function Task({ item, updateTask }: TaskProps): JSX.Element {
     const navigate = useNavigate();
     const time = `${item.spendTime}/${item.fullTime} time completed`;
     const percent = Math.floor(item.spendTime / (item.fullTime / 12));
     const percentClassName = percent ? `w-${ percent }/12` : 'w-0';
+    const {deleteTask} = firebaseCollections();
+
     const clickEvent = (): void => {
         navigate(`/task/${item.id}`);
     };
 
+    const removeTask = async (e?: React.MouseEvent<HTMLElement>): Promise<void> => {
+        e?.stopPropagation();
+        await deleteTask(item.id);
+        updateTask();
+    };
+
     return (
-        <div onClick={clickEvent} className="flex flex-col bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 p-4 rounded-xl text-white w-8/12 mx-auto my-auto cursor-pointer">
+        <div onClick={clickEvent} className="flex relative flex-col bg-gradient-to-r from-blue-500 via-purple-500 to-purple-600 p-4 rounded-xl text-white w-8/12 mx-auto my-auto cursor-pointer">
             <div className="mb-4 relative">
                 <div className="rounded border-2 float-left absolute p-1">
                     {item.status}
@@ -38,6 +49,7 @@ export default function Task({ item }: TaskProps): JSX.Element {
             <div>
                 <p className='pt-2'>{item?.text}</p>
             </div>
+            <CloseButton clickEvent={removeTask} color='white'/>
         </div>
     );
 }

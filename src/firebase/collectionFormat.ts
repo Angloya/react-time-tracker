@@ -103,13 +103,9 @@ export const getFormattedCalendar = ({ period, calendar }: {
 export const getTasksFormatted = (task: Exclude<TaskItem, 'id'>, tasks?: TaskCollection): TaskCollection => {
     const formattedTasks: TaskItem[] = [];
     const newTaskItem = { ...task };
-    if (tasks?.count) {
-        newTaskItem.id = tasks?.count;
-        formattedTasks.push(...tasks.items, newTaskItem);
-    } else {
-        newTaskItem.id = 0;
-        formattedTasks.push(newTaskItem);
-    }
+    newTaskItem.id = Date.now();
+    formattedTasks.push(...tasks?.items ?? [], newTaskItem);
+
     return {
         items: formattedTasks,
         count: formattedTasks.length

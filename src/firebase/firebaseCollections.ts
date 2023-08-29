@@ -19,6 +19,7 @@ export interface FirebaseCollections {
     getCalendar: () => Promise<FormattedCaledar | undefined>
     createTask: (task: TaskItem) => Promise<void>
     getTasks: () => Promise<TaskCollection | undefined>
+    deleteTask: (id: number) => Promise<void>
 }
 
 
@@ -110,12 +111,25 @@ const firebaseCollections = (): FirebaseCollections => {
         }
     };
 
+    const deleteTask: FirebaseCollections['deleteTask'] = async (id: number) => {
+        if (uid) {
+            const tasksRef = doc(db, uid, Collections.TASKS);
+            const tasksSnap = await getDoc(tasksRef);
+            if (tasksSnap.exists()) {
+                const data = tasksSnap.data() as TaskCollection;
+                const items = data.items.filter((item: TaskItem) => item.id !== id);
+                await setDoc(tasksRef, { ...data, items });
+            }
+        }
+    };
+
     return {
         setWorkTime,
         getWorkTime,
         getCalendar,
         createTask,
-        getTasks
+        getTasks,
+        deleteTask
     };
 };
 

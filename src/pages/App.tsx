@@ -20,6 +20,7 @@ function App(): ReactElement {
         const result = await getTasksList();
         setTaskCol(result);
         setIsLoading(false);
+        console.log('update');
     };
 
     const updateList = (): void => {
@@ -40,7 +41,7 @@ function App(): ReactElement {
             </button>
             {isLoading
                 ? <Loading />
-                : <TaskList items={taskCol?.items} />}
+                : <TaskList items={taskCol?.items} updateTask={dataFetch}/>}
 
             {showModal && <AddTaskPopup closeEvent={toggleModal} createdEvent={updateList} />}
         </div>
