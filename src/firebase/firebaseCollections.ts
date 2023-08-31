@@ -1,14 +1,15 @@
 import { db, auth } from './firebaseConfig';
 import { doc, getDoc, updateDoc, setDoc, deleteDoc } from 'firebase/firestore';
 import { getFormattedPeriod, getFormattedCalendar, getTasksFormatted } from './collectionFormat';
-import { FormattedPeriod, FormattedCaledar, TaskItem, TaskCollection } from '../model/interfaces';
+import { FormattedPeriod, FormattedCaledar, TaskItem, TaskCollection, GroupsCollection } from '../model/interfaces';
 import { formatTime, Time } from '../utils/formatTime';
 
 enum Collections {
     TIME = 'timer',
     TIME_CALENDAR = 'calendar',
     TIME_SETTINGS = 'settings',
-    TASKS = 'tasks'
+    TASKS = 'tasks',
+    GROUPS = 'groups'
 }
 
 const DEFAULT_TIMER_RESET_TIME = 12;
@@ -20,6 +21,8 @@ export interface FirebaseCollections {
     createTask: (task: TaskItem) => Promise<void>
     getTasks: () => Promise<TaskCollection | undefined>
     deleteTask: (id: number) => Promise<void>
+    addGroup: (group: string) => Promise<void>
+    getGroups: () => Promise<GroupsCollection | undefined>
 }
 
 
@@ -93,21 +96,20 @@ const firebaseCollections = (): FirebaseCollections => {
         }
     };
 
-    const createTask: FirebaseCollections['createTask'] = async (task: TaskItem) => {
-        if (uid) {
-            const tasksRef = doc(db, uid, Collections.TASKS);
-            const tasksSnap = await getDoc(tasksRef);
-            const tasks = tasksSnap.data() as TaskCollection;
-            await setDoc(tasksRef, getTasksFormatted(task, tasks));
-        }
-    };
-
     const getTasks: FirebaseCollections['getTasks'] = async () => {
         if (uid) {
             const tasksRef = doc(db, uid, Collections.TASKS);
             const tasksSnap = await getDoc(tasksRef);
 
             return tasksSnap.data() as TaskCollection;
+        }
+    };
+
+    const createTask: FirebaseCollections['createTask'] = async (task: TaskItem) => {
+        if (uid) {
+            const tasksRef = doc(db, uid, Collections.TASKS);
+            const tasks = await getTasks();
+            await setDoc(tasksRef, getTasksFormatted(task, tasks));
         }
     };
 
@@ -123,13 +125,33 @@ const firebaseCollections = (): FirebaseCollections => {
         }
     };
 
+    const getGroups: FirebaseCollections['getGroups'] = async () => {
+        if (uid) {
+            const groupRef = doc(db, uid, Collections.GROUPS);
+            const groupSnap = await getDoc(groupRef);
+            return groupSnap.data() as GroupsCollection;
+        }
+    };
+
+    const addGroup: FirebaseCollections['addGroup'] = async (group: string) => {
+        if (uid) {
+            const groupRef = doc(db, uid, Collections.GROUPS);
+            const groupSnap = await getDoc(groupRef);
+            const data = groupSnap.data() as GroupsCollection;
+            const groups = [...data.groups ?? [], group];
+            await setDoc(groupRef, { groups });
+        }
+    };
+
     return {
         setWorkTime,
         getWorkTime,
         getCalendar,
         createTask,
         getTasks,
-        deleteTask
+        deleteTask,
+        addGroup,
+        getGroups
     };
 };
 

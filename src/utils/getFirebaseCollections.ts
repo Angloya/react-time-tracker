@@ -1,5 +1,5 @@
 import firebaseCollections from '../firebase/firebaseCollections';
-import { WorkTimeDb, TaskCollection, FormattedPeriod } from '../model/interfaces';
+import {TaskCollection, FormattedPeriod } from '../model/interfaces';
 
 interface FirebaseCollections {
     startWorkDay: (isStarted: boolean, leftTime: number, workTime: number) => Promise<FormattedPeriod | undefined>

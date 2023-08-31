@@ -83,7 +83,7 @@ export default function Auth(): ReactElement {
 
                 {isLoginButton &&
                     <div className='w-full flex justify-end'>
-                        <a href="#" className="text-sm text-blue-700 hover:underline dark:text-blue-500">Lost Password?</a>
+                        <a href="#" className="text-sm text-blue-700 hover:underline">Lost Password?</a>
                     </div>
                 }
 

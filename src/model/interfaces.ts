@@ -104,3 +104,7 @@ export interface TaskCollection {
     items: TaskItem[]
     count: number
 }
+
+export interface GroupsCollection {
+    groups: string[]
+}
