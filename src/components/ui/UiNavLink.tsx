@@ -22,7 +22,7 @@ export default function UiNavLink({ children, url, isTab }: UiNavLinkProps): JSX
     
     return (
         <NavLink className={({ isActive }: NavLinkActive) => getClassName(isActive)} to={url}>
-             {children}
+            {children}
         </NavLink>
     );
 }
