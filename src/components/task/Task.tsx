@@ -27,7 +27,7 @@ export default function Task({ item, updateTask }: TaskProps): JSX.Element {
     };
 
     return (
-        <div onClick={clickEvent} className="flex relative flex-col items-start bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-xl text-white w-80 mx-auto my-auto cursor-pointer">
+        <div onClick={clickEvent} className="flex relative flex-col items-start bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-xl text-white mx-auto my-auto cursor-pointer">
             <div className="mb-1">
                 Status: {item.status}
             </div>
@@ -44,9 +44,6 @@ export default function Task({ item, updateTask }: TaskProps): JSX.Element {
             <div className="w-full bg-gray-400 p-0">
                 <div className={`${percentClassName} bg-white h-1`}>
                 </div>
-            </div>
-            <div>
-                <p className='pt-2'>{item?.text}</p>
             </div>
             <CloseButton clickEvent={removeTask} color='white'/>
         </div>

@@ -138,7 +138,7 @@ const firebaseCollections = (): FirebaseCollections => {
             const groupRef = doc(db, uid, Collections.GROUPS);
             const groupSnap = await getDoc(groupRef);
             const data = groupSnap.data() as GroupsCollection;
-            const groups = [...data.groups ?? [], group];
+            const groups = [...data?.groups ?? [], group];
             await setDoc(groupRef, { groups });
         }
     };
