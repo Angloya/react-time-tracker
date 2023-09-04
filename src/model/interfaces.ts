@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DocumentData } from 'firebase/firestore';
-import { TaskStatus } from './enums';
+import { TaskStatus, TaskSortParams } from './enums';
 
 export interface AuthEmailData {
     email: string
@@ -91,12 +91,12 @@ export interface UiTabsProps<TItem> {
 }
 
 export interface TaskItem {
-    group: string
+    [TaskSortParams.GROUP]: string
     title: string
     spendTime: number
     fullTime: number
     text?: string
-    status: TaskStatus
+    [TaskSortParams.STATUS]: TaskStatus
     id: number
 }
 

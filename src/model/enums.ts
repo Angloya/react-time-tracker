@@ -3,3 +3,8 @@ export enum TaskStatus {
     DONE = 'Done',
     OPENED = 'Opened'
 }
+
+export enum TaskSortParams {
+    GROUP = 'group',
+    STATUS = 'status',
+}
