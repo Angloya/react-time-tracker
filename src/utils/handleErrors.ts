@@ -13,7 +13,6 @@ export interface FirebaseAuthError {
 
 export const handleAuthError = (error: AuthError): FirebaseAuthError => {
     const errorCode = error.code;
-    console.log(error.code);
     const errorMessage = firebaseErrors[error.code as keyof typeof firebaseErrors] || error.message;
     const email = error.customData.email;
 

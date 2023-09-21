@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DocumentData } from 'firebase/firestore';
-import { TaskStatus, TaskSortParams } from './enums';
+import { TaskStatus, TaskSortParams, ItemTypes } from './enums';
 
 export interface AuthEmailData {
     email: string
@@ -100,6 +100,17 @@ export interface TaskItem {
     id: number
 }
 
+export interface TaskItemWithPosition extends TaskItem {
+    position: number
+}
+
+export interface TaskDraggableItem {
+    index: number
+    item: TaskItem
+    type: ItemTypes
+    currentColumnName: string
+}
+
 export interface TaskCollection {
     items: TaskItem[]
     count: number
@@ -108,3 +119,21 @@ export interface TaskCollection {
 export interface GroupsCollection {
     groups: string[]
 }
+
+export interface TaskItemDropResult {
+    dropEffect?: string
+    name: TaskStatus
+    dragIndex: number
+    hoverIndex: number
+}
+
+export interface ChangeTaskParams {
+    dragItem: TaskDraggableItem
+    result: TaskItemDropResult
+}
+
+export interface FirebaseStatusDoc {
+    names: TaskStatus[]
+}
+
+export type ChangeTask = (params: ChangeTaskParams) => void

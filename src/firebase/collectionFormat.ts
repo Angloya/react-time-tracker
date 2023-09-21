@@ -1,5 +1,6 @@
 import { DocumentData } from 'firebase/firestore';
 import { Period, FormattedPeriod, FormattedCaledar, TaskItem, TaskCollection } from '../model/interfaces';
+import { TaskStatus } from '../model/enums';
 import { formatTime } from '../utils/formatTime';
 
 enum DEFAULT_TIME {
@@ -100,14 +101,16 @@ export const getFormattedCalendar = ({ period, calendar }: {
     return newCalendar;
 };
 
-export const getTasksFormatted = (task: Exclude<TaskItem, 'id'>, tasks?: TaskCollection): TaskCollection => {
-    const formattedTasks: TaskItem[] = [];
-    const newTaskItem = { ...task };
-    newTaskItem.id = Date.now();
-    formattedTasks.push(...tasks?.items ?? [], newTaskItem);
+export const getTasksFormatted = ({ task, taskCollection, items }: { task?: Exclude<TaskItem, 'id'>, taskCollection?: TaskCollection, items?: TaskItem[] }): TaskCollection => {
+    const formattedTasks: TaskItem[] = [...taskCollection?.items ?? []];
+    if (task) {
+        const newTaskItem = { ...task };
+        newTaskItem.id = Date.now();
+        formattedTasks.push(newTaskItem);
+    }
 
     return {
-        items: formattedTasks,
+        items: items ? items : formattedTasks,
         count: formattedTasks.length
     };
 };

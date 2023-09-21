@@ -1,18 +1,22 @@
-import { TaskItem } from '../../model/interfaces';
-import { TaskSortParams } from '../../model/enums';
+import { TaskItem, ChangeTask, TaskDraggableItem } from '../../model/interfaces';
+import { TaskSortParams, TaskStatus } from '../../model/enums';
 import Task from './Task';
 import UiInput from '../ui/UiInput';
 import { useState } from 'react';
+import TaskDndList from './TaskDndList';
 
 interface TaskListProps {
     items?: TaskItem[]
     updateTask: () => void
+    changeTaskItems: ChangeTask
+    statusList: TaskStatus[]
 }
 
-export default function TaskList({ items, updateTask }: TaskListProps): JSX.Element {
+export default function TaskList({ items, updateTask, changeTaskItems, statusList }: TaskListProps): JSX.Element {
     const [inputValue, setInputValue] = useState('');
-    const [taskSortParam, setTaskSortParam] = useState<TaskSortParams>(TaskSortParams.GROUP);
-    const itemsMap = new Map<string, TaskItem[]>();
+    const itemsMap = new Map<TaskStatus, TaskItem[]>(statusList.map(status => {
+        return [status, []];
+    }));
 
     const changeInput = (e?: React.ChangeEvent<HTMLInputElement>): void => {
         setInputValue(e?.target.value ?? '');
@@ -25,13 +29,10 @@ export default function TaskList({ items, updateTask }: TaskListProps): JSX.Elem
     const parseItems = (): void => {
         if (filteredItems) {
             for (const item of filteredItems) {
-                const groupItems = itemsMap.has(item[taskSortParam]) ? itemsMap.get(item[taskSortParam]) ?? [] : [];
-                itemsMap.set(item[taskSortParam], [...groupItems, item]);
+                const groupItems = itemsMap.has(item[TaskSortParams.STATUS]) ? itemsMap.get(item[TaskSortParams.STATUS]) ?? [] : [];
+                itemsMap.set(item[TaskSortParams.STATUS], [...groupItems, { ...item }]);
             }
         }
-    };
-    const changeSort = (e?: React.ChangeEvent<HTMLSelectElement>): void => {
-        setTaskSortParam(e?.target.value as TaskSortParams);
     };
 
     parseItems();
@@ -43,34 +44,27 @@ export default function TaskList({ items, updateTask }: TaskListProps): JSX.Elem
             </div>
 
             <div className='flex flex-col w-full'>
-                <div className='mb-8 w-48 text-left'>
-                    <label htmlFor="sortParams" className='text-xs'>Sort by:</label>
-                    <select value={taskSortParam} onChange={changeSort} id="sortParams" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                        {Object.values(TaskSortParams).map((param, idx) => {
-                            return <option key={idx + param} value={param}>{param}</option>;
-                        })}
-                    </select>
-                </div>
-
                 <ul className="w-full grid grid-cols-3 gap-y-px gap-x-px border task-table">
-                    {[...itemsMap.entries()].map((itemMap, id) => {
+                    {[...itemsMap.entries()].map((itemMap) => {
                         const [groupName, groupItems] = itemMap;
                         return (
-                            <li key={id} className="p-4 border">
-                                <div className='pb-4'>
-                                    <span className='font-semibold uppercase'>{groupName}</span>
-                                </div>
-
-                                <ul className="w-full flex flex-col">
-                                    {groupItems && groupItems.map(item => {
+                            <TaskDndList key={groupName} columnName={groupName}>
+                                <>
+                                    {groupItems && groupItems.map((item, index) => {
                                         return (
-                                            <li key={item.id} className="mb-4">
-                                                <Task item={item} updateTask={updateTask} />
+                                            <li key={index + item.id} className="mb-4">
+                                                <Task
+                                                    item={item}
+                                                    index={index}
+                                                    currentColumnName={groupName}
+                                                    updateTask={updateTask}
+                                                    changeTask={(params) => changeTaskItems({ ...params })}
+                                                />
                                             </li>
                                         );
                                     })}
-                                </ul>
-                            </li>
+                                </>
+                            </TaskDndList>
                         );
                     })}
                 </ul>

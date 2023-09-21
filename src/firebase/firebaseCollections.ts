@@ -19,6 +19,7 @@ export interface FirebaseCollections {
     getWorkTime: () => Promise<FormattedPeriod | undefined>
     getCalendar: () => Promise<FormattedCaledar | undefined>
     createTask: (task: TaskItem) => Promise<void>
+    changeTasks: (items: TaskItem[]) => Promise<void>
     getTasks: () => Promise<TaskCollection | undefined>
     deleteTask: (id: number) => Promise<void>
     addGroup: (group: string) => Promise<void>
@@ -108,8 +109,15 @@ const firebaseCollections = (): FirebaseCollections => {
     const createTask: FirebaseCollections['createTask'] = async (task: TaskItem) => {
         if (uid) {
             const tasksRef = doc(db, uid, Collections.TASKS);
-            const tasks = await getTasks();
-            await setDoc(tasksRef, getTasksFormatted(task, tasks));
+            const taskCollection = await getTasks();
+            await setDoc(tasksRef, getTasksFormatted({ task, taskCollection }));
+        }
+    };
+
+    const changeTasks: FirebaseCollections['changeTasks'] = async (items: TaskItem[]) => {
+        if (uid) {
+            const tasksRef = doc(db, uid, Collections.TASKS);
+            await setDoc(tasksRef, getTasksFormatted({ items }));
         }
     };
 
@@ -151,7 +159,8 @@ const firebaseCollections = (): FirebaseCollections => {
         getTasks,
         deleteTask,
         addGroup,
-        getGroups
+        getGroups,
+        changeTasks
     };
 };
 

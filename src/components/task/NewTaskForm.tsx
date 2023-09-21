@@ -33,6 +33,7 @@ export default function NewTaskForm({ createdEvent }: NewTaskFormProps): JSX.Ele
             if (data.newGroup) {
                 await addGroup(data.newGroup);
                 data.group = data.newGroup;
+                delete data.newGroup;
             }
             await createTask(data);
             createdEvent();
@@ -46,7 +47,7 @@ export default function NewTaskForm({ createdEvent }: NewTaskFormProps): JSX.Ele
         setShowNewGroupInput((value: boolean) => !value);
     };
 
-    
+
 
     return (
         <>
@@ -73,7 +74,7 @@ export default function NewTaskForm({ createdEvent }: NewTaskFormProps): JSX.Ele
                                         <input {...register('newGroup')} id="newGroup" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
                                         <p onClick={createNewGroup} className='text-right text-sm text-blue-700 hover:underline cursor-pointer'>Select your group</p>
                                     </>
-                                    : 
+                                    :
                                     <>
                                         <label htmlFor="groups" className="block mb-2 text-sm font-medium text-gray-900">Select your Group</label>
                                         <select {...register('group', { required: true })} id="groups" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">

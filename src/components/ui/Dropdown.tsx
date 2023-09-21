@@ -76,8 +76,8 @@ export default function Dropdown<TItem extends DropdownItem>({ text, items, onCl
                     </div>
                     {
                         list?.length 
-                        ? list 
-                        : <li className='p-2'>Not Found</li>
+                            ? list 
+                            : <li className='p-2'>Not Found</li>
                     }
                 </ul>
             </div >
